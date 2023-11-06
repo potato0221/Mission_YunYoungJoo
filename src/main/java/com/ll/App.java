@@ -27,6 +27,8 @@ public class App {
             }else if(cmd.equals("등록")){
                 addSaying();
 
+            }else if(cmd.equals("목록")){
+                sayingList();
             }
         }
     }
@@ -41,5 +43,15 @@ public class App {
         sayings.add(saying);
         System.out.printf("%d번 명언이 등록 되었습니다.\n",idx);
     }
+    private void sayingList() {
+        System.out.println("번호 / 작가 / 명언");
+        System.out.println("-------------------");
+        for(int i=sayings.size()-1;i>=0;i--){
+            Saying saying = sayings.get(i);
+            System.out.printf("%d / %s / %s\n",saying.idx,saying.author,saying.content);
+        }
+
+    }
+
 
 }
