@@ -33,9 +33,15 @@ public class App {
             }else if(rq.getAction().equals("삭제")){
                 deleteSaying(rq);
 
+            }else if(rq.getAction().equals("수정")){
+                modifySaying(rq);
+            }else{
+                System.out.println("다시 입력 해 주세요.");
             }
         }
     }
+
+
 
 
     private void addSaying(){
@@ -61,17 +67,38 @@ public class App {
     private void deleteSaying(Rq rq) {
         int id=rq.getParamAsInt("id",0);
         if(id==0){
-            System.out.println("id를 정확히 입력 해주세요.");
+            System.out.println("id를 정확히 입력 해 주세요.");
             return;
         }
         int deleteIdx=getIdx(id);
         if(deleteIdx==-1){
-            System.out.printf("%d번 명언은 존재하지 않습니다.\n",id);
+            System.out.printf("%d번 명언은 존재 하지 않습니다.\n",id);
             return;
         }
         sayings.remove(deleteIdx);
         System.out.printf("%d번 명언을 삭제 했습니다.\n",id);
 
+
+    }
+
+    private void modifySaying(Rq rq) {
+        int id=rq.getParamAsInt("id",0);
+        if(id==0){
+            System.out.println("id를 정확히 입력 해 주세요.");
+            return;
+        }
+        int modifyIdx=getIdx(id);
+        if(modifyIdx==-1){
+            System.out.printf("%d번 명언은 존재 하지 않습니다.\n",id);
+            return;
+        }
+        Saying saying=sayings.get(modifyIdx);
+        System.out.printf("명언(기존) : %s\n",saying.content);
+        System.out.print("명언 : ");
+        saying.content=scanner.nextLine();
+        System.out.printf("작가(기존) : %s\n",saying.author);
+        System.out.print("작가 : ");
+        saying.author=scanner.nextLine();
 
     }
 
