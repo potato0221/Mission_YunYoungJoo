@@ -28,25 +28,28 @@ public class App {
             System.out.print("명령) ");
             String cmd = scanner.nextLine();
             Rq rq = new Rq(cmd);
-            if (rq.getAction().equals("종료")) {
+            switch (rq.getAction()) {
+                case "종료":
+                    makeFile(sayings, "sayings.txt");
+                    return;
 
-                break;
-
-            } else if (rq.getAction().equals("등록")) {
-                addSaying();
-
-            } else if (rq.getAction().equals("목록")) {
-                sayingList();
-            } else if (rq.getAction().equals("삭제")) {
-                deleteSaying(rq);
-
-            } else if (rq.getAction().equals("수정")) {
-                modifySaying(rq);
-            } else {
-                System.out.println("다시 입력 해 주세요.");
+                case "등록":
+                    addSaying();
+                    break;
+                case "목록":
+                    sayingList();
+                    break;
+                case "삭제":
+                    deleteSaying(rq);
+                    break;
+                case "수정":
+                    modifySaying(rq);
+                    break;
+                default:
+                    System.out.println("다시 입력 해 주세요.");
             }
         }
-        makeFile(sayings, "sayings.txt");
+
     }
 
 
@@ -156,8 +159,8 @@ public class App {
                 String[] parts = line.split(",");
                 if (parts.length == 3) {
                     int idx = Integer.parseInt(parts[0]);
-                    String content = parts[1];
-                    String author = parts[2];
+                    String author = parts[1];
+                    String content = parts[2];
                     Saying saying = new Saying(idx, content, author);
                     file.add(saying);
                     sayings.add(saying);
