@@ -10,4 +10,12 @@ public class Saying {
         this.content=content;
         this.author=author;
     }
+
+    public String toString(){
+        return idx+","+author+","+content;
+    }
+
+
+
+
 }
