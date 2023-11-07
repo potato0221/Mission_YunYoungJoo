@@ -1,6 +1,11 @@
 package com.ll;
 
-import java.io.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +24,8 @@ public class App {
 
     public void run() {
         System.out.println("== 명언 앱 ==");
-        loadFile("sayings.txt");
+        //loadFile("sayings.txt");
+        loadJson("data.json");
         if (!sayings.isEmpty()) {
             idx = sayings.get(sayings.size() - 1).idx;
         }
@@ -30,7 +36,8 @@ public class App {
             Rq rq = new Rq(cmd);
             switch (rq.getAction()) {
                 case "종료":
-                    makeFile(sayings, "sayings.txt");
+                    //makeFile(sayings, "sayings.txt");
+                    makeJson(sayings, "data.json");
                     return;
 
                 case "등록":
@@ -123,54 +130,94 @@ public class App {
         return -1;
     }
 
-    private void makeFile(List<Saying> sayings, String filename) {
-        List<Saying> exist = loadFile("sayings.txt");
+//    private void makeFile(List<Saying> sayings, String filename) {
+//        List<Saying> exist = loadFile("sayings.txt");
+//
+//        try (PrintWriter writer = new PrintWriter(new FileWriter("sayings.txt"))) {
+//            if (!exist.isEmpty()) {
+//                for (int i = 0; i < exist.size(); i++) {
+//                    writer.println(exist.get(i));
+//                }
+//            }
+//            for (Saying saying : sayings) {
+//                String txtSaying = saying.toString();
+//                boolean trueFalse = false;
+//                for (Saying saying1 : exist) {
+//                    if (txtSaying.contains(saying1.toString())) {
+//                        trueFalse = true;
+//                        break;
+//                    }
+//                }
+//                if (!trueFalse) {
+//                    writer.println(txtSaying);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
+//    private List<Saying> loadFile(String filename) {
+//        List<Saying> file = new ArrayList<>();
+//        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] parts = line.split(",");
+//                if (parts.length == 3) {
+//                    int idx = Integer.parseInt(parts[0]);
+//                    String author = parts[1];
+//                    String content = parts[2];
+//                    Saying saying = new Saying(idx, content, author);
+//                    file.add(saying);
+//                    sayings.add(saying);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return file;
+//
+//    }
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter("sayings.txt"))) {
-            if (!exist.isEmpty()) {
-                for (int i = 0; i < exist.size(); i++) {
-                    writer.println(exist.get(i));
-                }
-            }
+    private void makeJson(List<Saying> sayings, String fileName) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        try {
+            File file = new File(fileName);
+            List<Saying> existSayings = loadJson(fileName);
             for (Saying saying : sayings) {
-                String txtSaying = saying.toString();
-                boolean trueFalse = false;
-                for (Saying saying1 : exist) {
-                    if (txtSaying.contains(saying1.toString())) {
-                        trueFalse = true;
-                        break;
-                    }
-                }
+                boolean trueFalse = existSayings.stream()
+                        .anyMatch(existingSaying -> existingSaying.idx == saying.idx);
                 if (!trueFalse) {
-                    writer.println(txtSaying);
+                    existSayings.add(saying);
                 }
             }
-        } catch (IOException e) {
+            objectMapper.writeValue(file, existSayings);
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private List<Saying> loadFile(String filename) {
-        List<Saying> file = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 3) {
-                    int idx = Integer.parseInt(parts[0]);
-                    String author = parts[1];
-                    String content = parts[2];
-                    Saying saying = new Saying(idx, content, author);
-                    file.add(saying);
-                    sayings.add(saying);
-                }
+    private List<Saying> loadJson(String fileName) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            File file = new File(fileName);
+
+            if (file.exists()) {
+                sayings = objectMapper.readValue(file, new TypeReference<List<Saying>>() {
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return file;
 
+        }
+
+        return sayings;
     }
 
 
