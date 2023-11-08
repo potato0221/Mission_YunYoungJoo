@@ -180,7 +180,7 @@ public class SayingControl {
                 });
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Json 파일에 저장된 데이터가 없습니다.");
 
         }
 
@@ -194,6 +194,8 @@ public class SayingControl {
         }else idx=0;
         return idx;
     }
+
+
 
 
 
