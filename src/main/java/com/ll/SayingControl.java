@@ -42,7 +42,7 @@ public class SayingControl {
         System.out.println("-------------------");
         for (int i = sayings.size() - 1; i >= 0; i--) {
             Saying saying = sayings.get(i);
-            System.out.printf("%d / %s / %s\n", saying.idx, saying.author, saying.content);
+            System.out.printf("%d / %s / %s\n", saying.getIdx(), saying.getAuthor(), saying.getContent());
         }
 
     }
@@ -76,19 +76,19 @@ public class SayingControl {
             return;
         }
         Saying saying = sayings.get(modifyIdx);
-        System.out.printf("명언(기존) : %s\n", saying.content);
+        System.out.printf("명언(기존) : %s\n", saying.getContent());
         System.out.print("명언 : ");
-        saying.content = scanner.nextLine();
-        System.out.printf("작가(기존) : %s\n", saying.author);
+        saying.setContent(scanner.nextLine());
+        System.out.printf("작가(기존) : %s\n", saying.getAuthor());
         System.out.print("작가 : ");
-        saying.author = scanner.nextLine();
+        saying.setAuthor(scanner.nextLine());
 
     }
 
     private int getIdx(int id) {
         for (int i = 0; i < sayings.size(); i++) {
             Saying saying = sayings.get(i);
-            if (saying.idx == id) {
+            if (saying.getIdx() == id) {
                 return i;
             }
         }
@@ -156,7 +156,7 @@ public class SayingControl {
             List<Saying> existSayings = loadJson(fileName);
             for (Saying saying : sayings) {
                 boolean trueFalse = existSayings.stream()
-                        .anyMatch(existingSaying -> existingSaying.idx == saying.idx);
+                        .anyMatch(existingSaying -> existingSaying.getIdx() == saying.getIdx());
                 if (!trueFalse) {
                     existSayings.add(saying);
                 }
@@ -189,10 +189,12 @@ public class SayingControl {
 
     public int lastIdx(){
         if (!sayings.isEmpty()) {
-            idx = sayings.get(sayings.size() - 1).idx;
+            idx = sayings.get(sayings.size() - 1).getIdx();
 
         }else idx=0;
         return idx;
     }
+
+
 
 }

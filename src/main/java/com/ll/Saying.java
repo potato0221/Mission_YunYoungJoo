@@ -1,9 +1,17 @@
 package com.ll;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Saying {
-    public int idx;
-    public String content;
-    public String author;
+    @Getter
+    private int idx;
+    @Getter
+    @Setter
+    private String content;
+    @Getter
+    @Setter
+    private String author;
 
     public Saying(){
 

@@ -12,6 +12,8 @@ public class App {
     }
 
     public void run() {
+
+
         SayingControl sayingControl=new SayingControl(scanner);
 
 
