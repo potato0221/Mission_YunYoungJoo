@@ -59,6 +59,7 @@ public class SayingControl {
             return;
         }
         sayings.remove(deleteIdx);
+
         System.out.printf("%d번 명언을 삭제 했습니다.\n", id);
 
 
@@ -146,29 +147,6 @@ public class SayingControl {
 //
 //    }
 
-    public void makeJson(String fileName) {
-        List<Saying> sayings=this.sayings;
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        try {
-            File file = new File(fileName);
-            List<Saying> existSayings = loadJson(fileName);
-            for (Saying saying : sayings) {
-                boolean trueFalse = existSayings.stream()
-                        .anyMatch(existingSaying -> existingSaying.getIdx() == saying.getIdx());
-                if (!trueFalse) {
-                    existSayings.add(saying);
-                }
-            }
-            objectMapper.writeValue(file, existSayings);
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     public List<Saying> loadJson(String fileName) {
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -194,6 +172,20 @@ public class SayingControl {
         }else idx=0;
         return idx;
     }
+
+    public void saveSayingToJson() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        File file = new File("data.json");
+
+        try {
+            objectMapper.writeValue(file, sayings);
+            System.out.println("변경된 내용이 JSON 파일에 저장되었습니다.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

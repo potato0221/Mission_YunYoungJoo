@@ -29,7 +29,7 @@ public class App {
             switch (rq.getAction()) {
                 case "종료":
                     //makeFile(sayings, "sayings.txt");
-                    sayingControl.makeJson("data.json");
+
                     return;
 
                 case "등록":
@@ -43,6 +43,9 @@ public class App {
                     break;
                 case "수정":
                     sayingControl.modifySaying(rq);
+                    break;
+                case "빌드":
+                    sayingControl.saveSayingToJson();
                     break;
                 default:
                     System.out.println("다시 입력 해 주세요.");
