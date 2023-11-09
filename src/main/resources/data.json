@@ -3,11 +3,11 @@
   "content" : "명언1",
   "author" : "작가1"
 }, {
-  "idx" : 2,
-  "content" : "명언2",
-  "author" : "작가2"
-}, {
   "idx" : 4,
   "content" : "명언4",
   "author" : "작가4"
+}, {
+  "idx" : 5,
+  "content" : "명언5",
+  "author" : "작가5"
 } ]

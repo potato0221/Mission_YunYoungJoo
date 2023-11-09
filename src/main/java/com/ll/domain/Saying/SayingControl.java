@@ -1,8 +1,9 @@
-package com.ll;
+package com.ll.domain.Saying;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.ll.base.Rq;
 
 import java.io.File;
 import java.io.IOException;
@@ -176,7 +177,7 @@ public class SayingControl {
     public void saveSayingToJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        File file = new File("data.json");
+        File file = new File("C:\\Users\\rkawk\\Desktop\\mission\\mission\\src\\main\\resources\\data.json");
 
         try {
             objectMapper.writeValue(file, sayings);

@@ -1,4 +1,6 @@
-package com.ll;
+package com.ll.base;
+
+import com.ll.domain.Saying.SayingControl;
 
 import java.util.Scanner;
 
@@ -6,7 +8,7 @@ public class App {
     private Scanner scanner;
 
 
-    App() {
+    public App() {
         scanner = new Scanner(System.in);
 
     }
@@ -19,7 +21,8 @@ public class App {
 
         System.out.println("== 명언 앱 ==");
         //loadFile("sayings.txt");
-        sayingControl.loadJson("data.json");
+        String fileName="C:\\Users\\rkawk\\Desktop\\mission\\mission\\src\\main\\resources\\data.json";
+        sayingControl.loadJson(fileName);
 
         while (true) {
 
